@@ -171,7 +171,7 @@ ZMK_LISTENER(rgb_led_activity, rgb_led_activity_event_listener);
 ZMK_SUBSCRIPTION(rgb_led_activity, zmk_activity_state_changed);
 
 ZMK_LISTENER(rgb_led_keycode, rgb_led_keycode_event_listener);
-ZMK_SUBSCRIPTION(rgb_led_keycode, zmk_keycode_state_changed);
+ZMK_SUBSCRIPTION(rgb_led_keycode, zmk_event_keycode_state_changed);
 
 ZMK_LISTENER(rgb_led_layer, rgb_led_layer_event_listener);
 ZMK_SUBSCRIPTION(rgb_led_layer, zmk_layer_state_changed_event);
