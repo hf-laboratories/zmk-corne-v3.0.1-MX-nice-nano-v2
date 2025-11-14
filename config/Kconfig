@@ -1,0 +1,11 @@
+config ZMK_RGB_EFFECT_LAYER_INDICATOR
+    bool "Enable RGB layer indicator effect"
+    default y
+    help
+      Enables the RGB effect that indicates the active layer.
+
+config ZMK_RGB_EFFECT_BREATHING
+    bool "Enable RGB breathing effect"
+    default y
+    help
+      Enables the breathing RGB effect.
