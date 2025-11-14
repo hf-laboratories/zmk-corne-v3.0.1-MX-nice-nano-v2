@@ -132,14 +132,16 @@ config ZMK_RGB_TYPING_HEATMAP_FADE_STEP_MS
 
 config ZMK_RGB_EFFECT_LAYER_INDICATOR
     bool "Enable RGB layer indicator effect"
-    default y
+    default n
     help
       Enables the RGB effect that indicates the active layer.
+      Note: Currently disabled as the required ZMK event API is not available.
 
 config ZMK_RGB_EFFECT_BREATHING
     bool "Enable RGB breathing effect"
-    default y
+    default n
     help
       Enables the breathing RGB effect.
+      Note: Currently disabled as implementation is not available.
 
 endif # ZMK_RGB_PER_KEY
