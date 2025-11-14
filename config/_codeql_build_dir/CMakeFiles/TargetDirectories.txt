@@ -1,0 +1,2 @@
+/home/runner/work/zmk-corne-v3.0.1-MX-nice-nano-v2/zmk-corne-v3.0.1-MX-nice-nano-v2/config/_codeql_build_dir/CMakeFiles/edit_cache.dir
+/home/runner/work/zmk-corne-v3.0.1-MX-nice-nano-v2/zmk-corne-v3.0.1-MX-nice-nano-v2/config/_codeql_build_dir/CMakeFiles/rebuild_cache.dir
