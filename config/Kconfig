@@ -130,16 +130,4 @@ config ZMK_RGB_TYPING_HEATMAP_FADE_STEP_MS
     help
       Time between fade steps in milliseconds
 
-config ZMK_RGB_EFFECT_LAYER_INDICATOR
-    bool "Enable layer indicator effect"
-    default n
-    help
-      Enable the layer indicator RGB effect
-
-config ZMK_RGB_EFFECT_BREATHING
-    bool "Enable breathing effect"
-    default n
-    help
-      Enable the breathing RGB effect
-
 endif # ZMK_RGB_PER_KEY
