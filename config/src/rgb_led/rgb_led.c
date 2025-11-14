@@ -174,7 +174,7 @@ ZMK_LISTENER(rgb_led_keycode, rgb_led_keycode_event_listener);
 ZMK_SUBSCRIPTION(rgb_led_keycode, zmk_keycode_state_changed);
 
 ZMK_LISTENER(rgb_led_layer, rgb_led_layer_event_listener);
-ZMK_SUBSCRIPTION(rgb_led_layer, zmk_layer_state_changed);
+ZMK_SUBSCRIPTION(rgb_led_layer, zmk_layer_state_changed_event);
 
 // Initialization
 static int rgb_led_init(void) {
