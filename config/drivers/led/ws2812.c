@@ -9,8 +9,16 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
+#include <string.h>
 
-LOG_MODULE_REGISTER(ws2812, CONFIG_LED_LOG_LEVEL);
+LOG_MODULE_REGISTER(ws2812, CONFIG_ZMK_LOG_LEVEL);
+
+// Forward declaration of API structure
+struct ws2812_driver_api {
+    int (*set_pixel)(const struct device *dev, uint16_t index, uint8_t r, uint8_t g, uint8_t b);
+    int (*update)(const struct device *dev);
+    int (*clear)(const struct device *dev);
+};
 
 struct ws2812_config {
     const struct gpio_dt_spec pin;
@@ -130,14 +138,8 @@ static int ws2812_clear(const struct device *dev) {
     return ws2812_update(dev);
 }
 
-// Device API (simplified for demonstration)
-static const struct {
-    int (*init)(const struct device *dev);
-    int (*set_pixel)(const struct device *dev, uint16_t index, uint8_t r, uint8_t g, uint8_t b);
-    int (*update)(const struct device *dev);
-    int (*clear)(const struct device *dev);
-} ws2812_api = {
-    .init = ws2812_init,
+// Device API structure matching the header
+static const struct ws2812_driver_api ws2812_api = {
     .set_pixel = ws2812_set_pixel,
     .update = ws2812_update,
     .clear = ws2812_clear,
@@ -159,7 +161,7 @@ static const struct {
                           &ws2812_data_##inst,                            \
                           &ws2812_config_##inst,                          \
                           POST_KERNEL,                                     \
-                          CONFIG_LED_INIT_PRIORITY,                        \
+                          CONFIG_KERNEL_INIT_PRIORITY_DEVICE,              \
                           &ws2812_api);
 
 DT_INST_FOREACH_STATUS_OKAY(WS2812_DEVICE_INIT)

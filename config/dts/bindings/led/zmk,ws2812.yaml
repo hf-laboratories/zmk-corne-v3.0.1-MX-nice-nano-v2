@@ -4,27 +4,17 @@ description: ZMK WS2812/SK6812 Addressable RGB LED Strip
 compatible: "zmk,ws2812"
 
 properties:
-  gpios:
-    type: phandle-array
-    required: false
-    description: Data output pin for the LED strip
-
   pin:
     type: phandle-array
-    required: false
-    description: Data output pin for the LED strip (alternative to gpios)
+    required: true
+    description: Data output pin for the LED strip
 
   chain-length:
     type: int
     required: true
     description: Number of LEDs in the strip
 
-  color-order:
-    type: string
-    required: false
-    description: Color order for the LED strip (e.g., RGB, GRB, etc.)
-
   label:
     type: string
-    required: true
+    required: false
     description: Human readable name

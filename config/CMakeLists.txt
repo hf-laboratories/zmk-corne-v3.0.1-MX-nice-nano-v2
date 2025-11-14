@@ -3,8 +3,8 @@
 
 if(CONFIG_ZMK_RGB_PER_KEY)
     # Add RGB LED driver sources
-    zephyr_library_sources(drivers/led/ws2812.c)
-    zephyr_library_sources(src/rgb_led/rgb_led.c)
+    zephyr_library_sources(${CMAKE_CURRENT_SOURCE_DIR}/drivers/led/ws2812.c)
+    zephyr_library_sources(${CMAKE_CURRENT_SOURCE_DIR}/src/rgb_led/rgb_led.c)
     
     # Add include directories
     zephyr_include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
