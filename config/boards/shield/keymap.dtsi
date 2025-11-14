@@ -1,0 +1,37 @@
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+                &kp Q &kp W &kp E &kp R &kp T
+                &kp A &kp S &kp D &kp F &kp G
+                &kp Z &kp X &kp C &kp V &kp B
+                &trans &trans &trans &kp SPACE &kp ENTER
+            >;
+        };
+
+        layer_1 {
+            bindings = <
+                &kp 1 &kp 2 &kp 3 &kp 4 &kp 5
+                &kp EXCL &kp AT &kp HASH &kp DOLLAR &kp PERCENT
+                &kp LSHIFT &kp LCTRL &kp LALT &kp LGUI &kp ESC
+                &trans &trans &trans &kp TAB &kp BSPC
+            >;
+        };
+    };
+
+    rgb_animations {
+        compatible = "zmk,rgb-animations";
+
+        group_left {
+            label = "LeftHand";
+            color = <255 0 0>; // Red
+        };
+
+        group_right {
+            label = "RightHand";
+            color = <0 0 255>; // Blue
+        };
+    };
+};
