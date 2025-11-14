@@ -6,6 +6,8 @@ The below keymap is generated using [this tool](https://caksoylar.github.io/keym
 
 - **[CONFIGURATION.md](CONFIGURATION.md)** - Complete configuration overview for this specific Corne v3 build
 - **[ZMK_CONFIGURABLES.md](ZMK_CONFIGURABLES.md)** - Comprehensive reference for all possible ZMK configuration options
+- **[SPLIT_CENTRAL_CONFIGURATION.md](SPLIT_CENTRAL_CONFIGURATION.md)** - Detailed guide about split keyboard central/peripheral roles and limitations
+- **[docs/BOOTLOADER_ACCESS.md](docs/BOOTLOADER_ACCESS.md)** - How to enter bootloader mode using keys for easy firmware flashing
 
 ## Keymap
 

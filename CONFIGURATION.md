@@ -28,6 +28,8 @@ This keyboard is configured with:
 - Both halves communicate via BLE
 - The left (central) half handles all HID communication with the host computer
 
+**Important:** The central/peripheral roles are fixed at firmware compile time and cannot automatically switch based on USB connection. See [SPLIT_CENTRAL_CONFIGURATION.md](SPLIT_CENTRAL_CONFIGURATION.md) for detailed information about split keyboard role configuration and limitations
+
 ### 2. ZMK Studio Support
 - **Enabled**: `CONFIG_ZMK_STUDIO=y`
 - ZMK Studio allows real-time keymap editing and configuration through a web interface
@@ -53,6 +55,9 @@ This keyboard is configured with:
 - **Adjust Layer (Layer 3)**: Function keys and RGB
   - F1-F12 function keys
   - RGB controls (toggle, hue, saturation, brightness, speed, effects)
+  - **Bootloader keys**: Enter bootloader mode on each half for easy firmware flashing
+  - **Reset keys**: Soft reset (restart) each half without re-flashing
+  - See [docs/BOOTLOADER_ACCESS.md](docs/BOOTLOADER_ACCESS.md) for detailed instructions
 
 ### 3. RGB LED Configuration
 - **Enabled**: `CONFIG_ZMK_RGB_UNDERGLOW=y`

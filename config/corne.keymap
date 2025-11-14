@@ -21,10 +21,10 @@
             //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
 
             bindings = <
-&kp TAB    &kp NUMBER_1    &kp NUMBER_2    &kp NUMBER_3     &kp NUMBER_4  &kp NUMBER_5    &bootloader  &kp U  &kp I      &kp O    &kp P     &kp BSPC
-&kp LCTRL  &kp NUMBER_6    &kp NUMBER_7    &kp NUMBER_8     &kp NUMBER_9  &kp NUMBER_0    &kp H        &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
-&kp LSHFT  &studio_unlock  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &kp V         &kp B           &kp N        &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
-                                           &kp LGUI         &mo 1         &kp ENTER       &kp ENTER    &mo 2  &kp RALT
+&kp TAB    &kp Q           &kp W           &kp E            &kp R     &kp T        &kp Y      &kp U  &kp I      &kp O    &kp P     &kp BSPC
+&kp LCTRL  &kp A           &kp S           &kp D            &kp F     &kp G        &kp H      &kp J  &kp K      &kp L    &kp SEMI  &kp SQT
+&kp LSHFT  &kp Z           &kp X           &kp C            &kp V     &kp B        &kp N      &kp M  &kp COMMA  &kp DOT  &kp FSLH  &kp ESC
+                                           &kp LGUI         &mo 1     &kp SPACE    &kp ENTER  &mo 2  &kp RALT
             >;
         };
 
@@ -61,15 +61,15 @@
         adjust_layer {
             // -----------------------------------------------------------------------------------------
             // | F1  | F2  | F3  | F4  | F5  | F6  |   | F7  | F8  | F9  | F10 | F11 | F12 |
-            // | RGB | HUI | SAI | BRI | SPI |     |   |     |     |     |     |     |     |
-            // | TOG | HUD | SAD | BRD | SPD |     |   |     |     |     |     |     |     |
+            // | RGB | HUI | SAI | BRI | SPI | BTLDR |   | BTLDR |     |     |     |     |     |
+            // | TOG | HUD | SAD | BRD | SPD | RST |   | RST |     |     |     |     |     |
             //                   |     |     |     |   |     |     |     |
 
             bindings = <
-&kp F1           &kp F2           &kp F3           &kp F4           &kp F5           &kp F6    &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
-&rgb_ug RGB_TOG  &rgb_ug RGB_HUI  &rgb_ug RGB_SAI  &rgb_ug RGB_BRI  &rgb_ug RGB_SPI  &trans    &trans  &trans  &trans  &trans   &trans   &trans
-&rgb_ug RGB_EFF  &rgb_ug RGB_HUD  &rgb_ug RGB_SAD  &rgb_ug RGB_BRD  &rgb_ug RGB_SPD  &trans    &trans  &trans  &trans  &trans   &trans   &trans
-                                                   &trans           &trans           &trans    &trans  &trans  &trans
+&kp F1           &kp F2           &kp F3           &kp F4           &kp F5           &kp F6         &kp F7         &kp F8  &kp F9  &kp F10  &kp F11  &kp F12
+&rgb_ug RGB_TOG  &rgb_ug RGB_HUI  &rgb_ug RGB_SAI  &rgb_ug RGB_BRI  &rgb_ug RGB_SPI  &bootloader    &bootloader    &trans  &trans  &trans   &trans   &trans
+&rgb_ug RGB_EFF  &rgb_ug RGB_HUD  &rgb_ug RGB_SAD  &rgb_ug RGB_BRD  &rgb_ug RGB_SPD  &sys_reset     &sys_reset     &trans  &trans  &trans   &trans   &trans
+                                                   &trans           &trans           &trans         &trans         &trans  &trans
             >;
         };
     };
