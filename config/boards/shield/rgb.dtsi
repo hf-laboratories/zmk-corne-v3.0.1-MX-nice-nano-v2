@@ -3,7 +3,7 @@
         compatible = "zmk,ws2812";
         label = "PerKeyRGB";
         chain-length = <42>;
-        color-order = <GRB>; // Use RGB if your LEDs require it
         pin = <&gpio0 13>;   // Default RGB data pin on Corne v3
+        status = "okay";
     };
 };
