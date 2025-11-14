@@ -1,0 +1,22 @@
+# SPDX-License-Identifier: MIT
+description: ZMK RGB Animations Configuration
+
+compatible: "zmk,rgb-animations"
+
+child-binding:
+  description: RGB animation group configuration
+  properties:
+    label:
+      type: string
+      required: false
+      description: Human readable name for the group
+
+    color:
+      type: array
+      required: false
+      description: RGB color values (R, G, B) from 0-255
+
+    indices:
+      type: array
+      required: false
+      description: LED indices that belong to this group

@@ -1,11 +1,133 @@
-config ZMK_RGB_EFFECT_LAYER_INDICATOR
-    bool "Enable RGB layer indicator effect"
-    default y
-    help
-      Enables the RGB effect that indicates the active layer.
+# Copyright (c) 2020 The ZMK Contributors
+# SPDX-License-Identifier: MIT
 
-config ZMK_RGB_EFFECT_BREATHING
-    bool "Enable RGB breathing effect"
+config ZMK_RGB_PER_KEY
+    bool "RGB Per-Key LED Support"
+    select LED_STRIP
+    select GPIO
+    help
+      Enable per-key RGB LED support
+
+if ZMK_RGB_PER_KEY
+
+config ZMK_RGB_LED_COUNT
+    int "Number of RGB LEDs"
+    default 42
+    help
+      Total number of RGB LEDs in the keyboard
+
+config ZMK_RGB_EXT_POWER
+    bool "RGB LED external power control"
     default y
     help
-      Enables the breathing RGB effect.
+      Enable external power control for RGB LEDs
+
+config ZMK_RGB_AUTO_OFF_USB
+    bool "Turn off RGB when USB disconnected"
+    default n
+    help
+      Automatically turn off RGB LEDs when USB is disconnected
+
+config ZMK_RGB_AUTO_OFF_IDLE
+    bool "Turn off RGB when idle"
+    default y
+    help
+      Automatically turn off RGB LEDs when keyboard is idle
+
+config ZMK_RGB_ON_START
+    bool "Turn on RGB on startup"
+    default y
+    help
+      Turn on RGB LEDs when the keyboard starts
+
+config ZMK_RGB_EFF_START
+    int "Starting RGB effect"
+    default 2
+    range 0 10
+    help
+      The RGB effect to use on startup
+
+config ZMK_RGB_HUE_START
+    int "Starting hue value"
+    default 180
+    range 0 359
+    help
+      The hue value to use on startup
+
+config ZMK_RGB_SAT_START
+    int "Starting saturation value"
+    default 100
+    range 0 100
+    help
+      The saturation value to use on startup
+
+config ZMK_RGB_BRI_START
+    int "Starting brightness value"
+    default 50
+    range 0 100
+    help
+      The brightness value to use on startup
+
+config ZMK_RGB_BRIGHTNESS
+    int "RGB brightness"
+    default 40
+    range 0 100
+    help
+      Overall RGB brightness
+
+config ZMK_RGB_HUE_STEP
+    int "Hue adjustment step"
+    default 10
+    range 1 100
+    help
+      Amount to adjust hue by
+
+config ZMK_RGB_SAT_STEP
+    int "Saturation adjustment step"
+    default 10
+    range 1 100
+    help
+      Amount to adjust saturation by
+
+config ZMK_RGB_BRI_STEP
+    int "Brightness adjustment step"
+    default 10
+    range 1 100
+    help
+      Amount to adjust brightness by
+
+config ZMK_RGB_EFFECT_TYPING_HEATMAP
+    bool "Enable typing heatmap effect"
+    default n
+    help
+      Enable the typing heatmap RGB effect
+
+config ZMK_RGB_EFFECT_STATIC
+    bool "Enable static color effect"
+    default n
+    help
+      Enable the static color RGB effect
+
+config ZMK_RGB_TYPING_HEATMAP_BRIGHTNESS
+    int "Typing heatmap brightness"
+    default 80
+    range 0 100
+    depends on ZMK_RGB_EFFECT_TYPING_HEATMAP
+    help
+      Brightness for typing heatmap effect
+
+config ZMK_RGB_TYPING_HEATMAP_FADE_DELAY_MS
+    int "Typing heatmap fade delay (ms)"
+    default 20
+    depends on ZMK_RGB_EFFECT_TYPING_HEATMAP
+    help
+      Delay before fading starts in milliseconds
+
+config ZMK_RGB_TYPING_HEATMAP_FADE_STEP_MS
+    int "Typing heatmap fade step (ms)"
+    default 10
+    depends on ZMK_RGB_EFFECT_TYPING_HEATMAP
+    help
+      Time between fade steps in milliseconds
+
+endif # ZMK_RGB_PER_KEY
