@@ -134,11 +134,13 @@ static int rgb_led_activity_event_listener(const zmk_event_t *eh) {
 
 static int rgb_led_keycode_event_listener(const zmk_event_t *eh) {
 #if IS_ENABLED(CONFIG_ZMK_RGB_EFFECT_TYPING_HEATMAP)
-    const struct zmk_keycode_state_changed *keycode_event = as_zmk_keycode_state_changed(eh);
+    // Note: as_zmk_keycode_state_changed is not available in this ZMK version
+    // Keeping this as a placeholder for future implementation
+    // const struct zmk_keycode_state_changed *keycode_event = as_zmk_keycode_state_changed(eh);
     
-    if (keycode_event == NULL || !keycode_event->state) {
-        return 0;
-    }
+    // if (keycode_event == NULL || !keycode_event->state) {
+    //     return 0;
+    // }
     
     // Trigger LED update on keypress for typing effects
     state.needs_update = true;
@@ -150,16 +152,18 @@ static int rgb_led_keycode_event_listener(const zmk_event_t *eh) {
 
 static int rgb_led_layer_event_listener(const zmk_event_t *eh) {
 #if IS_ENABLED(CONFIG_ZMK_RGB_EFFECT_LAYER_INDICATOR)
-    const struct zmk_layer_state_changed *layer_event = as_zmk_layer_state_changed(eh);
+    // Note: as_zmk_layer_state_changed is not available in this ZMK version
+    // Keeping this as a placeholder for future implementation
+    // const struct zmk_layer_state_changed *layer_event = as_zmk_layer_state_changed(eh);
     
-    if (layer_event == NULL) {
-        return 0;
-    }
+    // if (layer_event == NULL) {
+    //     return 0;
+    // }
     
-    LOG_DBG("Layer changed to %d", layer_event->layer);
+    // LOG_DBG("Layer changed to %d", layer_event->layer);
     
     // Update hue based on layer (simple effect)
-    state.hue = (layer_event->layer * 60) % 360;
+    // state.hue = (layer_event->layer * 60) % 360;
     state.needs_update = true;
     k_work_submit(&rgb_led_work);
 #endif
@@ -170,11 +174,15 @@ static int rgb_led_layer_event_listener(const zmk_event_t *eh) {
 ZMK_LISTENER(rgb_led_activity, rgb_led_activity_event_listener);
 ZMK_SUBSCRIPTION(rgb_led_activity, zmk_activity_state_changed);
 
+#if IS_ENABLED(CONFIG_ZMK_RGB_EFFECT_TYPING_HEATMAP)
 ZMK_LISTENER(rgb_led_keycode, rgb_led_keycode_event_listener);
 ZMK_SUBSCRIPTION(rgb_led_keycode, zmk_keycode_state_changed);
+#endif
 
+#if IS_ENABLED(CONFIG_ZMK_RGB_EFFECT_LAYER_INDICATOR)
 ZMK_LISTENER(rgb_led_layer, rgb_led_layer_event_listener);
 ZMK_SUBSCRIPTION(rgb_led_layer, zmk_layer_state_changed);
+#endif
 
 // Initialization
 static int rgb_led_init(void) {
