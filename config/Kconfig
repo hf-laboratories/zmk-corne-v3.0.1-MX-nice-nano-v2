@@ -4,6 +4,7 @@
 config ZMK_RGB_PER_KEY
     bool "RGB Per-Key LED Support"
     select LED_STRIP
+    select GPIO
     help
       Enable per-key RGB LED support
 
