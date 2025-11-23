@@ -8,6 +8,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/settings/settings.h>
+#include <drivers/led/ws2812.h>
 
 #include <zmk/event_manager.h>
 #include <zmk/events/activity_state_changed.h>
@@ -32,9 +33,10 @@ struct rgb_led_state {
 
 static struct rgb_led_state state = {
     .enabled = IS_ENABLED(CONFIG_ZMK_RGB_ON_START),
-    .brightness = CONFIG_ZMK_RGB_BRI_START,
-    .hue = CONFIG_ZMK_RGB_HUE_START,
-    .saturation = CONFIG_ZMK_RGB_SAT_START,
+    // Scale config values (0-100/0-360) to driver range (0-255)
+    .brightness = (CONFIG_ZMK_RGB_BRI_START * 255) / 100,
+    .hue = (CONFIG_ZMK_RGB_HUE_START * 255) / 360,
+    .saturation = (CONFIG_ZMK_RGB_SAT_START * 255) / 100,
     .effect = CONFIG_ZMK_RGB_EFF_START,
     .needs_update = true,
 };
@@ -79,11 +81,20 @@ static void hsv_to_rgb(uint8_t h, uint8_t s, uint8_t v, uint8_t *r, uint8_t *g, 
     }
 }
 
+#define LED_STRIP_NODE DT_NODELABEL(rgb_leds)
+static const struct device *led_strip = DEVICE_DT_GET(LED_STRIP_NODE);
+
 // Update all LEDs based on current state
 static void rgb_led_update_leds(void) {
+    if (!device_is_ready(led_strip)) {
+        LOG_ERR("LED strip device not ready");
+        return;
+    }
+
     if (!state.enabled) {
         // Turn off all LEDs
         LOG_DBG("LEDs disabled, turning off");
+        ws2812_clear(led_strip);
         return;
     }
     
@@ -93,9 +104,15 @@ static void rgb_led_update_leds(void) {
     LOG_DBG("Updating LEDs: H=%d S=%d V=%d -> R=%d G=%d B=%d", 
             state.hue, state.saturation, state.brightness, r, g, b);
     
-    // Here we would call the WS2812 driver to update the LEDs
-    // For now, this is a stub
+    // Update all LEDs
+    for (int i = 0; i < CONFIG_ZMK_RGB_LED_COUNT; i++) {
+        ws2812_set_pixel(led_strip, i, r, g, b);
+    }
+    ws2812_update(led_strip);
 }
+
+// Work handler for LED updates
+// ...existing code...
 
 // Work handler for LED updates
 static void rgb_led_work_handler(struct k_work *work) {
@@ -136,11 +153,11 @@ static int rgb_led_keycode_event_listener(const zmk_event_t *eh) {
 #if IS_ENABLED(CONFIG_ZMK_RGB_EFFECT_TYPING_HEATMAP)
     // Note: as_zmk_keycode_state_changed is not available in this ZMK version
     // Keeping this as a placeholder for future implementation
-    // const struct zmk_keycode_state_changed *keycode_event = as_zmk_keycode_state_changed(eh);
+    const struct zmk_keycode_state_changed *keycode_event = as_zmk_keycode_state_changed(eh);
     
-    // if (keycode_event == NULL || !keycode_event->state) {
-    //     return 0;
-    // }
+    if (keycode_event == NULL || !keycode_event->state) {
+        return 0;
+    }
     
     // Trigger LED update on keypress for typing effects
     state.needs_update = true;
@@ -154,16 +171,16 @@ static int rgb_led_layer_event_listener(const zmk_event_t *eh) {
 #if IS_ENABLED(CONFIG_ZMK_RGB_EFFECT_LAYER_INDICATOR)
     // Note: as_zmk_layer_state_changed is not available in this ZMK version
     // Keeping this as a placeholder for future implementation
-    // const struct zmk_layer_state_changed *layer_event = as_zmk_layer_state_changed(eh);
+    const struct zmk_layer_state_changed *layer_event = as_zmk_layer_state_changed(eh);
     
-    // if (layer_event == NULL) {
-    //     return 0;
-    // }
+    if (layer_event == NULL) {
+        return 0;
+    }
     
-    // LOG_DBG("Layer changed to %d", layer_event->layer);
+    LOG_DBG("Layer changed to %d", layer_event->layer);
     
     // Update hue based on layer (simple effect)
-    // state.hue = (layer_event->layer * 60) % 360;
+    state.hue = (layer_event->layer * 60) % 360;
     state.needs_update = true;
     k_work_submit(&rgb_led_work);
 #endif

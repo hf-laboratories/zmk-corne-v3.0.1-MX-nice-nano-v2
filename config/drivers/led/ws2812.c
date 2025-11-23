@@ -22,6 +22,8 @@ struct ws2812_driver_api {
 
 struct ws2812_config {
     const struct gpio_dt_spec pin;
+    const struct gpio_dt_spec pin_secondary;
+    bool has_secondary;
     uint16_t chain_length;
 };
 
@@ -43,6 +45,18 @@ static int ws2812_init(const struct device *dev) {
     if (ret < 0) {
         LOG_ERR("Failed to configure GPIO pin");
         return ret;
+    }
+
+    if (config->has_secondary) {
+        if (!device_is_ready(config->pin_secondary.port)) {
+            LOG_ERR("Secondary GPIO port not ready");
+            return -ENODEV;
+        }
+        ret = gpio_pin_configure_dt(&config->pin_secondary, GPIO_OUTPUT_INACTIVE);
+        if (ret < 0) {
+            LOG_ERR("Failed to configure secondary GPIO pin");
+            return ret;
+        }
     }
     
     // Allocate memory for pixel data (3 bytes per LED: RGB)
@@ -93,6 +107,9 @@ static int ws2812_update(const struct device *dev) {
     
     // Send reset signal (low for 50+ microseconds)
     gpio_pin_set_dt(&config->pin, 0);
+    if (config->has_secondary) {
+        gpio_pin_set_dt(&config->pin_secondary, 0);
+    }
     k_busy_wait(50);
     
     // Send pixel data using bit-banging
@@ -103,14 +120,18 @@ static int ws2812_update(const struct device *dev) {
             if (byte & 0x80) {
                 // Send '1' bit
                 gpio_pin_set_dt(&config->pin, 1);
+                if (config->has_secondary) gpio_pin_set_dt(&config->pin_secondary, 1);
                 k_busy_wait(1);  // ~800ns
                 gpio_pin_set_dt(&config->pin, 0);
+                if (config->has_secondary) gpio_pin_set_dt(&config->pin_secondary, 0);
                 k_busy_wait(0);  // ~450ns
             } else {
                 // Send '0' bit
                 gpio_pin_set_dt(&config->pin, 1);
+                if (config->has_secondary) gpio_pin_set_dt(&config->pin_secondary, 1);
                 k_busy_wait(0);  // ~400ns
                 gpio_pin_set_dt(&config->pin, 0);
+                if (config->has_secondary) gpio_pin_set_dt(&config->pin_secondary, 0);
                 k_busy_wait(1);  // ~850ns
             }
             byte <<= 1;
@@ -119,6 +140,9 @@ static int ws2812_update(const struct device *dev) {
     
     // Send reset signal
     gpio_pin_set_dt(&config->pin, 0);
+    if (config->has_secondary) {
+        gpio_pin_set_dt(&config->pin_secondary, 0);
+    }
     k_busy_wait(50);
     
     irq_unlock(key);
@@ -148,6 +172,8 @@ static const struct ws2812_driver_api ws2812_api = {
 #define WS2812_DEVICE_INIT(inst)                                           \
     static const struct ws2812_config ws2812_config_##inst = {            \
         .pin = GPIO_DT_SPEC_GET(DT_DRV_INST(inst), pin),                 \
+        .pin_secondary = GPIO_DT_SPEC_GET_OR(DT_DRV_INST(inst), pin_secondary, {0}), \
+        .has_secondary = DT_INST_NODE_HAS_PROP(inst, pin_secondary),     \
         .chain_length = DT_INST_PROP(inst, chain_length),                \
     };                                                                     \
                                                                            \

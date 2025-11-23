@@ -9,6 +9,11 @@ properties:
     required: true
     description: Data output pin for the LED strip
 
+  pin-secondary:
+    type: phandle-array
+    required: false
+    description: Secondary data output pin for the LED strip (optional)
+
   chain-length:
     type: int
     required: true
