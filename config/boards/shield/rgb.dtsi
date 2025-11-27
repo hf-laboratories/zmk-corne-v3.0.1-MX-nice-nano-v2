@@ -2,7 +2,7 @@
     rgb_leds: ws2812 {
         compatible = "zmk,ws2812";
         label = "PerKeyRGB";
-        chain-length = <42>;
+        chain-length = <21>;
         pin = <&gpio0 13>;   // Default RGB data pin on Corne v3
         pin-secondary = <&gpio0 6>; // Secondary pin (old underglow pin)
         status = "okay";
