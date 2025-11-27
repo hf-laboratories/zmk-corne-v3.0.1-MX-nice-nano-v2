@@ -1,0 +1,8 @@
+&rgb_matrix {
+    status = "okay";
+    led_pin = <0x0A>;   // adjust to PCB routing
+    led_count = <21>;
+    max_brightness = <80>;
+    animations = "breathing rainbow solid";
+};
+
